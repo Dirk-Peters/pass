@@ -13,22 +13,22 @@
         Title="{Binding Title}"
         MinWidth="{Binding MinWidth}"
         MinHeight="{Binding MinHeight}">
-        <Grid RowDefinitions="*,Auto">
-                <Border Grid.Row="0" Padding="10">
-                        <ContentControl Content="{Binding Content}" />
-                </Border>
+    <Grid RowDefinitions="*,Auto">
+        <Border Grid.Row="0" Padding="10">
+            <ContentControl Content="{Binding Content}" />
+        </Border>
 
-                <!-- <ItemsControl Grid.Row="1" Items="{Binding Buttons}" Padding="10"> -->
-                <!--         <ItemsControl.ItemTemplate> -->
-                <!--                 <DataTemplate> -->
-                <!--                         <button:ButtonView DataContext="{Binding}" /> -->
-                <!--                 </DataTemplate> -->
-                <!--         </ItemsControl.ItemTemplate> -->
-                <!--         <ItemsControl.ItemsPanel> -->
-                <!--                 <ItemsPanelTemplate> -->
-                <!--                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" /> -->
-                <!--                 </ItemsPanelTemplate> -->
-                <!--         </ItemsControl.ItemsPanel> -->
-                <!-- </ItemsControl> -->
-        </Grid>
+        <ItemsControl Grid.Row="1" Items="{Binding Buttons}" Padding="10">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding DisplayText}" Command="{Binding Command}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </Grid>
 </Window>

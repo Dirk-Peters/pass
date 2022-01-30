@@ -10,6 +10,7 @@ using Pass.Components.Commands;
 using Pass.Components.Encryption;
 using Pass.Components.Extensions;
 using Pass.Components.FileSystem;
+using Pass.Components.Navigation;
 using Pass.Components.ViewMapping;
 using Pass.Models;
 using Pass.Views;
@@ -50,7 +51,11 @@ public sealed class PasswordListViewModel : Bindable, IDisposable
         set => searchString.Value = value;
     }
 
-    public ICommand Lock => new RelayCommand(() => messageBus.Publish(new Locked()), () => true);
+    public ICommand Lock =>
+        new RelayCommand(() => messageBus.Publish(new Locked()), () => true);
+
+    public ICommand Add =>
+        new RelayCommand(() => messageBus.Publish(new PushContent(new NewPasswordViewModel(messageBus))));
 
     public PasswordListViewModel(
         PasswordRepository passwordRepository,

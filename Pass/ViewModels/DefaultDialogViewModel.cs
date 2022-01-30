@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Pass.Components.Binding;
 using Pass.Components.Dialog;
 using Pass.Components.ViewMapping;
@@ -15,8 +14,15 @@ public sealed class DefaultDialogViewModel : Bindable, IDialog
     public double MinWidth => 500;
     public double MinHeight => 300;
     public Bindable Content { get; }
-    public IEnumerable<object> Buttons => Enumerable.Empty<object>();
+    public IEnumerable<ActionItem> Buttons { get; }
+
     public event EventHandler Closed;
 
-    public DefaultDialogViewModel(Bindable content) => Content = content;
+    public DefaultDialogViewModel(
+        Bindable content,
+        Func<IDialog, IEnumerable<ActionItem>> buttons) =>
+        (Content, Buttons) = (content, buttons.Invoke(this));
+
+    public void Close() =>
+        Closed?.Invoke(this, EventArgs.Empty);
 }

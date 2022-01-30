@@ -19,9 +19,6 @@ using static Functional;
 
 public sealed class App : Application
 {
-    private static readonly string UserProfilePath =
-        Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-
     public override void Initialize() => AvaloniaXamlLoader.Load(this);
 
     public override void OnFrameworkInitializationCompleted()

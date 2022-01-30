@@ -12,7 +12,8 @@ namespace Pass.Components.Encryption;
 
 public static class Decrypt
 {
-    public static Task<Maybe<Password>> DecryptedPassword(PasswordRepository passwordRepository,
+    public static Task<Maybe<Password>> DecryptedPassword(
+        PasswordRepository passwordRepository,
         KeyRepository keyRepository, string name)
     {
         var stream =

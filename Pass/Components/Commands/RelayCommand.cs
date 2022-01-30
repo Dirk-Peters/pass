@@ -10,6 +10,11 @@ public sealed class RelayCommand : CommandBase
     private readonly Func<Task> func;
     private readonly Func<bool> canExecute;
 
+    public RelayCommand(Func<Task> func)
+        : this(func, () => true)
+    {
+    }
+
     public RelayCommand(Func<Task> func, Func<bool> canExecute)
         : this(func, canExecute, Observable.Never<Unit>())
     {

@@ -12,6 +12,7 @@
         <entry key="Pass/Views/LoadingView.axaml" value="Pass/Pass.csproj" />
         <entry key="Pass/Views/LoadingViewModel.axaml" value="Pass/Pass.csproj" />
         <entry key="Pass/Views/MainView.axaml" value="Pass/Pass.csproj" />
+        <entry key="Pass/Views/NewPasswordDialogView.axaml" value="Pass/Pass.csproj" />
         <entry key="Pass/Views/PasswordListView.axaml" value="Pass/Pass.csproj" />
         <entry key="Pass/Views/PasswordView.axaml" value="Pass/Pass.csproj" />
         <entry key="Pass/Views/ProgressSpinner.axaml" value="Pass/Pass.csproj" />
