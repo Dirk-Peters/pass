@@ -9,7 +9,8 @@ public sealed class ReactiveProperty<T> : IObservable<T>
 {
     private readonly BehaviorSubject<T> subject;
 
-    public ReactiveProperty() : this(default)
+    public ReactiveProperty()
+        : this(default)
     {
     }
 

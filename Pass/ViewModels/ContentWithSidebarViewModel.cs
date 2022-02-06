@@ -7,9 +7,16 @@ using Pass.Views;
 
 namespace Pass.ViewModels;
 
+public sealed record StartProgress;
+
+public sealed record EndProgress;
+
 [View(typeof(ContentWithSidebarView))]
-public sealed class ContentWithSidebarViewModel : Bindable, IDisposable, IHandle<SelectedPasswordChanged>,
-    IHandle<PasswordLoading>
+public sealed class ContentWithSidebarViewModel
+    : Bindable,
+        IDisposable,
+        IHandle<SelectedPasswordChanged>,
+        IHandle<PasswordLoading>
 {
     private readonly List<IDisposable> subscriptions = new();
     private readonly ReactiveProperty<Bindable> content;

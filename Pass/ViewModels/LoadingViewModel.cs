@@ -4,6 +4,8 @@ using Pass.Views;
 
 namespace Pass.ViewModels;
 
+
+
 [View(typeof(LoadingView))]
 public sealed class LoadingViewModel : Bindable
 {

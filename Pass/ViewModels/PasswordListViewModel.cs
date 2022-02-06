@@ -77,6 +77,10 @@ public sealed class PasswordListViewModel : Bindable, IDisposable
                         () => Task.CompletedTask);
             })
             .Subscribe());
+
+        messageBus.Subscribe(
+            new PasswordRepositoryUpdates(passwordRepository, keyRepository, messageBus),
+            SubscriptionLifecycle.ExplicitUnsubscribe);
     }
 
     public void Dispose() => subscriptions.ForEach(s => s.Dispose());

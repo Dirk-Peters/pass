@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using MonadicBits;
 using Pass.Components.Encryption;
 using Pass.Components.Extensions;
+using Pass.Components.FileSystem;
 using Pass.ViewModels;
 using Pass.Views;
 

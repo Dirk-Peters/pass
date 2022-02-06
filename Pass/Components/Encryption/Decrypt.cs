@@ -14,7 +14,8 @@ public static class Decrypt
 {
     public static Task<Maybe<Password>> DecryptedPassword(
         PasswordRepository passwordRepository,
-        KeyRepository keyRepository, string name)
+        KeyRepository keyRepository,
+        string name)
     {
         var stream =
             from file in passwordRepository.Lookup(name)
@@ -32,7 +33,10 @@ public static class Decrypt
         });
     }
 
-    private static Maybe<Stream> DecryptedStream(IEncryptedFile file, Stream keyStream, string password)
+    private static Maybe<Stream> DecryptedStream(
+        IEncryptedFile file,
+        Stream keyStream,
+        string password)
     {
         using (keyStream)
         {
