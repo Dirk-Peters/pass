@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -8,9 +10,9 @@ using Bridgefield.PersistentBits;
 using Bridgefield.PersistentBits.FileSystem;
 using Microsoft.Extensions.Configuration;
 using MonadicBits;
+using Pass.Components.Dialog;
 using Pass.Components.Encryption;
 using Pass.Components.Extensions;
-using Pass.Components.FileSystem;
 using Pass.ViewModels;
 using Pass.Views;
 
@@ -18,7 +20,7 @@ namespace Pass;
 
 using static Functional;
 
-public sealed class App : Application
+public sealed class App : Application, IHandle<object>
 {
     public override void Initialize() => AvaloniaXamlLoader.Load(this);
 
@@ -35,8 +37,12 @@ public sealed class App : Application
             var messageBus = MessageBus.Create();
 
             var mainWindow = new MainView();
+            var dialogPresenter = new DefaultDialogPresenter(mainWindow);
+            messageBus.Subscribe(dialogPresenter, SubscriptionLifecycle.ExplicitUnsubscribe);
+            messageBus.Subscribe(this);
             desktop.MainWindow = mainWindow;
             mainWindow.DataContext = new MainViewModel(passwordDirectory, keyRepository, messageBus);
+            Handle("Application ready");
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -66,4 +72,7 @@ public sealed class App : Application
             .Bind(settings, o => o.BindNonPublicProperties = true);
         return settings;
     }
+
+    public void Handle(object message) =>
+        Console.WriteLine($"Message dispatched: {message} in thread {Environment.CurrentManagedThreadId}");
 }

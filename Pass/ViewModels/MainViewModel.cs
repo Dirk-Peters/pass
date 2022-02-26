@@ -21,7 +21,9 @@ public sealed class MainViewModel
         IHandle<Unlocked>,
         IHandle<Locked>,
         IHandle<PushContent>,
-        IHandle<PopContent>
+        IHandle<PopContent>,
+        IHandle<StartProgress>,
+        IHandle<EndProgress>
 {
     private readonly IDirectory passwordDirectory;
     private readonly KeyRepository keyRepository;
@@ -64,6 +66,7 @@ public sealed class MainViewModel
 
     public void Handle(PushContent message)
     {
+        Console.WriteLine($"pushing content {message.Content.GetType()}");
         contentStack.Push(message.Content);
         OnPropertyChanged(nameof(Content));
     }
@@ -76,6 +79,22 @@ public sealed class MainViewModel
             disposable.Dispose();
         }
 
+        Console.WriteLine($"popping content {popped.GetType()}");
         OnPropertyChanged(nameof(Content));
+    }
+
+    public void Handle(StartProgress message) =>
+        Handle(new PushContent(new LoadingViewModel()));
+
+    public void Handle(EndProgress message)
+    {
+        if (contentStack.Peek() is LoadingViewModel)
+        {
+            Handle(new PopContent());
+        }
+        else
+        {
+            Console.WriteLine("ignoring end progress since current content is not a loading view model");
+        }
     }
 }

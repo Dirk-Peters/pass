@@ -1,6 +1,10 @@
+using System.Linq;
 using System.Threading.Tasks;
 using bridgefield.FoundationalBits;
+using Pass.Components.Dialog;
 using Pass.Components.Encryption;
+using Pass.Components.Extensions;
+using Pass.Components.Navigation;
 using Pass.Models;
 using Pass.ViewModels;
 
@@ -25,10 +29,15 @@ public sealed class PasswordRepositoryUpdates
         this.messageBus = messageBus;
     }
 
-    public async Task Handle(NewPasswordCreated message)
-    {
-        await messageBus.Publish(new StartProgress());
-        await passwords.EncryptPassword(keyRepository, message.Password);
-        await messageBus.Publish(new EndProgress());
-    }
+    public Task Handle(NewPasswordCreated message) =>
+        Task.Run(async () =>
+        {
+            await messageBus.Publish<StartProgress>();
+            await (await passwords.All()
+                    .Any(pw => pw.Name == message.Password.Name)
+                    .OnTrue(async () => await messageBus.Publish(
+                        new OkMessage("Duplicate Name", "A password with the given name already exists."))))
+                .OnFalse(() => passwords.EncryptPassword(keyRepository, message.Password));
+            await messageBus.Publish<EndProgress>();
+        });
 }

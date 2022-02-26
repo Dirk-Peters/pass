@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using bridgefield.FoundationalBits;
 using Pass.Components.Binding;
@@ -90,17 +91,19 @@ public sealed class NewPasswordViewModel : Bindable, INotifyDataErrorInfo
         private readonly NewPasswordViewModel viewModel;
 
         public CreatePasswordCommand(NewPasswordViewModel viewModel)
-            : base(viewModel.passwordConfirmationProperty.Changed) =>
+            : base(viewModel.passwordValidationError.Changed) =>
             this.viewModel = viewModel;
 
-        protected override async void OnExecute(object parameter)
-        {
-            await viewModel.messageBus.Publish(
-                new NewPasswordCreated(
-                    new Password(viewModel.Name, viewModel.Password,
-                        new Dictionary<string, string>())));
-            await viewModel.messageBus.Publish<PopContent>();
-        }
+        protected override void OnExecute(object parameter) =>
+            Task.Run(async () =>
+            {
+                await viewModel.messageBus.Publish<PopContent>();
+                await viewModel.messageBus.Publish(
+                    new NewPasswordCreated(
+                        new Password(viewModel.Name, viewModel.Password,
+                            new Dictionary<string, string>())));
+                
+            });
 
         protected override bool OnCanExecute(object parameter) =>
             !viewModel.HasErrors;

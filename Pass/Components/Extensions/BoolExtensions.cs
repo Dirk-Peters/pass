@@ -90,7 +90,7 @@ public static class BoolExtensions
             await func();
         }
 
-        return new FluentBool(true);
+        return new FluentBool(value);
     }
 
     public static async Task<IFalse> OnFalse(this bool value, Func<Task> func)
@@ -100,7 +100,7 @@ public static class BoolExtensions
             await func();
         }
 
-        return new FluentBool(false);
+        return new FluentBool(value);
     }
 
     public static async Task<ITrue> OnTrue(this Task<bool> value, Func<Task> func) =>
