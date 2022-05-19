@@ -94,16 +94,14 @@ public sealed class NewPasswordViewModel : Bindable, INotifyDataErrorInfo
             : base(viewModel.passwordValidationError.Changed) =>
             this.viewModel = viewModel;
 
-        protected override void OnExecute(object parameter) =>
-            Task.Run(async () =>
-            {
-                await viewModel.messageBus.Publish<PopContent>();
-                await viewModel.messageBus.Publish(
-                    new NewPasswordCreated(
-                        new Password(viewModel.Name, viewModel.Password,
-                            new Dictionary<string, string>())));
-                
-            });
+        protected override async Task OnExecute(object parameter)
+        {
+            await viewModel.messageBus.Publish<PopContent>();
+            await viewModel.messageBus.Publish(
+                new NewPasswordCreated(
+                    new Password(viewModel.Name, viewModel.Password,
+                        new Dictionary<string, string>())));
+        }
 
         protected override bool OnCanExecute(object parameter) =>
             !viewModel.HasErrors;

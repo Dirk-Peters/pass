@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Pass.Components.Commands;
@@ -22,7 +23,7 @@ public abstract class CommandBase : ICommand, IDisposable
 
     public event EventHandler CanExecuteChanged;
 
-    protected abstract void OnExecute(object parameter);
+    protected abstract Task OnExecute(object parameter);
 
     protected virtual bool OnCanExecute(object parameter) => true;
 

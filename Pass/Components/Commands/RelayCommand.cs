@@ -27,7 +27,7 @@ public sealed class RelayCommand : CommandBase
         this.canExecute = canExecute;
     }
 
-    protected override async void OnExecute(object parameter) => await func();
+    protected override async Task OnExecute(object parameter) => await func();
 
     protected override bool OnCanExecute(object parameter) => canExecute();
 }

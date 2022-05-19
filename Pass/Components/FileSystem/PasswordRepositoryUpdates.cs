@@ -29,15 +29,14 @@ public sealed class PasswordRepositoryUpdates
         this.messageBus = messageBus;
     }
 
-    public Task Handle(NewPasswordCreated message) =>
-        Task.Run(async () =>
-        {
-            await messageBus.Publish<StartProgress>();
-            await (await passwords.All()
-                    .Any(pw => pw.Name == message.Password.Name)
-                    .OnTrue(async () => await messageBus.Publish(
-                        new OkMessage("Duplicate Name", "A password with the given name already exists."))))
-                .OnFalse(() => passwords.EncryptPassword(keyRepository, message.Password));
-            await messageBus.Publish<EndProgress>();
-        });
+    public async Task Handle(NewPasswordCreated message)
+    {
+        //await messageBus.Publish<StartProgress>();
+        await (await passwords.All()
+                .Any(pw => pw.Name == message.Password.Name)
+                .OnTrue(async () => await messageBus.Publish(
+                    new OkMessage("Duplicate Name", "A password with the given name already exists."))))
+            .OnFalse(() => passwords.EncryptPassword(keyRepository, message.Password));
+        //await messageBus.Publish<EndProgress>();
+    }
 }
